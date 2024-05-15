@@ -81,7 +81,3 @@ This script verifies the data extracted from NetCDF files against the generated 
 #### Classes:
 
 - `NetCDFVerifier`: Verifies the extracted data against the original NetCDF data.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
