@@ -5,6 +5,16 @@ import pandas as pd
 import os
 
 
+def generate_headers(lat_range, lon_range, dataset):
+    headers = ['Date']
+    latitudes = dataset.variables['latitude'][lat_range]
+    longitudes = dataset.variables['longitude'][lon_range]
+    for lat in latitudes:
+        for lon in longitudes:
+            headers.append(f"{lat:.1f}, {lon:.1f}")
+    return headers
+
+
 class DataExtractor:
     def __init__(self, filepath, output_directory, output_filename):
         self.filepath = filepath
@@ -62,11 +72,14 @@ class DataExtractor:
             print("First date in dataset:", dates[0])
             print("Last date in dataset:", dates[-1])
 
-    def save_to_csv(self, data, dates):
+    def save_to_csv(self, data, dates, headers):
+        print(f"Shape of data: {data.shape}")
+        print(f"Number of headers: {len(headers)}")
         if data.size == 0:
             raise ValueError(
                 "No data to save. Data extraction failed or resulted in an empty dataset.")
-        df = pd.DataFrame(data)
+        # exclude 'Date' from headers
+        df = pd.DataFrame(data, columns=headers[1:])
         df.insert(0, 'Date', dates)
         df.to_csv(self.output_filename, index=False)
         print(f"Data saved to {self.output_filename}")
@@ -103,11 +116,12 @@ class RegionalDataExtractor(DataExtractor):
                     f"Starting date {starting_date} out of dataset bounds.")
             start_idx = next(i for i, date in enumerate(
                 dates) if date >= start_date)
-        self.print_time_info(start_idx)
+        self.print_time_info(start_idx)  # Call the parent class method
         lat_range, lon_range = self.get_lat_lon_indices()
         data = self.extract_data(lat_range, lon_range, start_idx)
         dates = self.extract_date(start_idx)
-        self.save_to_csv(data, dates)
+        headers = generate_headers(lat_range, lon_range, self.dataset)
+        self.save_to_csv(data, dates, headers)
 
 
 class NetCDFProcessor:
@@ -151,11 +165,7 @@ class NetCDFProcessor:
 
 if __name__ == '__main__':
     coords = {
-        'Istanbul': (41.3, 28.6, 40.8, 29.3),
         'Paris': (49.1, 1.8, 48.5, 3.0),
-        'Madrid': (40.8, -4.0, 40.0, -3.4),
-        'London': (51.7, -0.6, 51.2, 0.4),
-        'Hamburg': (53.8, 9.6, 53.2, 10.5)
     }
 
     processor = NetCDFProcessor(netcdf_dir='netcdf4data', coords=coords)
