@@ -4,25 +4,12 @@ This repository contains scripts to process and extract climate data from NetCDF
 
 ## Table of Contents
 
-- [Installation](#installation)
 - [Usage](#usage)
   - [Climate Data Extraction](#climate-data-extraction)
   - [Air Quality Stations Retrieval](#air-quality-stations-retrieval)
 - [Scripts](#scripts)
 - [License](#license)
 
-## Installation
-
-1. **Clone the repository:**
-    ```sh
-    git clone https://github.com/yourusername/climate-data-processor.git
-    cd climate-data-processor
-    ```
-
-2. **Install dependencies:**
-    ```sh
-    pip install -r requirements.txt
-    ```
 
 ## Usage
 
