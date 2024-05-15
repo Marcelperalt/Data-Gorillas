@@ -17,7 +17,7 @@ This repository contains scripts to process and extract climate data from NetCDF
 
 The script `climate_data_extractor.py` processes NetCDF files to extract climate data for specified regions and saves the data as CSV files.
 
-1. **Define the coordinates for your regions of interest in the main section.:**
+1. **Define the coordinates for your regions of interest in the main section. 'City': (nw_lat, nw_lon, se_lat, se_lon):**
     ```python
     coords = {
         'Istanbul': (41.3, 28.6, 40.8, 29.3),
@@ -27,7 +27,6 @@ The script `climate_data_extractor.py` processes NetCDF files to extract climate
         'Hamburg': (53.8, 9.6, 53.2, 10.5)
     }
     ```
-    f.example Istanbul: Northwest Coordinates = 41.3, 28.6, Southeast Coordinates = 40.8, 29.3 which represents the grid
 
 2. **Set the directory containing your NetCDF files and the starting date for data extraction:**
     ```python
