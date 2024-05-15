@@ -1,11 +1,20 @@
+"""
+Climate Data Processor
+
+This script processes and extracts climate data from NetCDF files and saves it as CSV files.
+"""
+
 from datetime import datetime
-from netCDF4 import Dataset, num2date
+import os
 import numpy as np
 import pandas as pd
-import os
+from netCDF4 import Dataset, num2date
 
 
 def generate_headers(lat_range, lon_range, dataset):
+    """
+    Generate headers for the CSV file based on latitude and longitude ranges.
+    """
     headers = ['Date']
     latitudes = dataset.variables['latitude'][lat_range]
     longitudes = dataset.variables['longitude'][lon_range]
@@ -16,6 +25,10 @@ def generate_headers(lat_range, lon_range, dataset):
 
 
 class DataExtractor:
+    """
+    Class to handle loading and extracting data from a NetCDF file.
+    """
+
     def __init__(self, filepath, output_directory, output_filename):
         self.filepath = filepath
         self.output_directory = output_directory
@@ -27,14 +40,23 @@ class DataExtractor:
         self.variable_name = self.detect_variable()
 
     def load_dataset(self):
+        """
+        Load the NetCDF dataset.
+        """
         return Dataset(self.filepath, 'r')
 
     def detect_variable(self):
+        """
+        Detect the variable to extract from the NetCDF file.
+        """
         for name, _ in self.dataset.variables.items():
             if name not in ['longitude', 'latitude', 'time']:
                 return name
 
     def find_index(self, coordinate, coordinate_type='latitude'):
+        """
+        Find the index of the closest coordinate in the NetCDF file.
+        """
         coords = self.dataset.variables[coordinate_type][:]
         if coordinate < coords.min() or coordinate > coords.max():
             raise ValueError(
@@ -42,6 +64,9 @@ class DataExtractor:
         return np.argmin(np.abs(coords - coordinate))
 
     def extract_data(self, lat_range, lon_range, start_idx=None):
+        """
+        Extract data from the NetCDF file for the specified latitude and longitude ranges.
+        """
         if start_idx is not None:
             data = self.dataset.variables[self.variable_name][start_idx:,
                                                               lat_range, lon_range]
@@ -51,6 +76,9 @@ class DataExtractor:
         return data.reshape(data.shape[0], -1)
 
     def extract_date(self, start_idx=None):
+        """
+        Extract dates from the NetCDF file.
+        """
         time_var = self.dataset.variables['time']
         if start_idx is not None:
             dates = num2date(
@@ -61,6 +89,9 @@ class DataExtractor:
         return [date.strftime('%Y-%m-%d') for date in dates]
 
     def print_time_info(self, start_idx=None):
+        """
+        Print the time range information from the NetCDF file.
+        """
         time_var = self.dataset.variables['time']
         dates = num2date(time_var[:], units=time_var.units,
                          calendar='standard' if 'calendar' not in time_var.ncattrs() else time_var.calendar)
@@ -73,6 +104,9 @@ class DataExtractor:
             print("Last date in dataset:", dates[-1])
 
     def save_to_csv(self, data, dates, headers):
+        """
+        Save the extracted data to a CSV file.
+        """
         print(f"Shape of data: {data.shape}")
         print(f"Number of headers: {len(headers)}")
         if data.size == 0:
@@ -86,6 +120,10 @@ class DataExtractor:
 
 
 class RegionalDataExtractor(DataExtractor):
+    """
+    Class to handle data extraction for specific geographic regions.
+    """
+
     def __init__(self, filepath, nw_lat, nw_lon, se_lat, se_lon, output_directory, output_filename='output.csv'):
         super().__init__(filepath, output_directory, output_filename)
         self.nw_lat = nw_lat
@@ -94,6 +132,9 @@ class RegionalDataExtractor(DataExtractor):
         self.se_lon = se_lon
 
     def get_lat_lon_indices(self):
+        """
+        Get the indices for the specified latitude and longitude ranges.
+        """
         nw_lat_idx = self.find_index(self.nw_lat, 'latitude')
         nw_lon_idx = self.find_index(self.nw_lon, 'longitude')
         se_lat_idx = self.find_index(self.se_lat, 'latitude')
@@ -105,6 +146,9 @@ class RegionalDataExtractor(DataExtractor):
         return lat_range, lon_range
 
     def process_data(self, starting_date=None):
+        """
+        Process data for the specified date range and save it to a CSV file.
+        """
         start_idx = None
         if starting_date is not None:
             time_var = self.dataset.variables['time']
@@ -116,7 +160,7 @@ class RegionalDataExtractor(DataExtractor):
                     f"Starting date {starting_date} out of dataset bounds.")
             start_idx = next(i for i, date in enumerate(
                 dates) if date >= start_date)
-        self.print_time_info(start_idx)  # Call the parent class method
+        self.print_time_info(start_idx)
         lat_range, lon_range = self.get_lat_lon_indices()
         data = self.extract_data(lat_range, lon_range, start_idx)
         dates = self.extract_date(start_idx)
@@ -125,20 +169,31 @@ class RegionalDataExtractor(DataExtractor):
 
 
 class NetCDFProcessor:
+    """
+    Class to process multiple NetCDF files for defined regions.
+    """
+
     def __init__(self, netcdf_dir, coords):
         self.netcdf_dir = netcdf_dir
         self.coords = coords
 
     def process_all(self, starting_date=None):
+        """
+        Process all NetCDF files in the directory.
+        """
         netcdf_files = [f for f in os.listdir(
             self.netcdf_dir) if f.endswith('.nc')]
         for filename in netcdf_files:
             self.process_file(filename, starting_date)
 
     def process_file(self, filename, starting_date):
+        """
+        Process a single NetCDF file.
+        """
         filepath = os.path.join(self.netcdf_dir, filename)
         try:
-            dataset = Dataset(filepath, 'r')
+            # Open the dataset to check for existence
+            _ = Dataset(filepath, 'r')
         except FileNotFoundError:
             print(f"File {filepath} not found. Skipping.")
             return
@@ -164,9 +219,9 @@ class NetCDFProcessor:
 
 
 if __name__ == '__main__':
-    coords = {
+    city_coords = {
         'Paris': (49.1, 1.8, 48.5, 3.0),
     }
 
-    processor = NetCDFProcessor(netcdf_dir='netcdf4data', coords=coords)
+    processor = NetCDFProcessor(netcdf_dir='netcdf4data', coords=city_coords)
     processor.process_all(starting_date='2013-01-01')
