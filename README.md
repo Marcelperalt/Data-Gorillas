@@ -7,9 +7,9 @@ This repository contains scripts to process and extract climate data from NetCDF
 - [Usage](#usage)
   - [Climate Data Extraction](#climate-data-extraction)
   - [Air Quality Stations Retrieval](#air-quality-stations-retrieval)
+  - [Data Verification](#data-verification)
 - [Scripts](#scripts)
 - [License](#license)
-
 
 ## Usage
 
@@ -55,6 +55,26 @@ The script `air_quality_stations.py` retrieves air quality station data for spec
     python air_quality_stations.py
     ```
 
+### Data Verification
+
+The script `netcdf_verifier.py` verifies the extracted CSV data against the original NetCDF files for specified regions and dates.
+
+1. **Define the coordinates for your regions of interest and the starting date in the main section:**
+    ```python
+    coords = {
+        'Paris': (49.1, 1.8, 48.5, 3.0),
+    }
+
+    netcdf_dir = 'netcdf4data'
+    csv_dir = 'CSVClimateData'
+    starting_date = '2013-01-01'
+    ```
+
+2. **Run the script to verify the data:**
+    ```sh
+    python netcdf_verifier.py
+    ```
+
 ## Scripts
 
 ### `climate_data_extractor.py`
@@ -69,6 +89,13 @@ This script extracts climate data from NetCDF files for specific geographic regi
 ### `air_quality_stations.py`
 
 This script retrieves air quality station information from the WAQI API for specified cities and saves the data to a text file.
+
+### `netcdf_verifier.py`
+
+This script verifies the extracted CSV data against the original NetCDF files for specified regions and dates.
+
+#### Classes:
+- `NetCDFVerifier`: Handles the loading and verification of NetCDF and CSV data for specific coordinates and dates.
 
 ## License
 
