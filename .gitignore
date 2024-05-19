@@ -2,12 +2,23 @@
 data/raw/netcdf4data/*
 !data/raw/netcdf4data/.gitkeep
 
-# Ignore processed CSV and Parquet files
-data/processed/CSVClimateData/*
-!data/processed/CSVClimateData/.gitkeep
+# Ignore processed CSV and Parquet files in CsVClimateData subdirectories
+data/processed/CsVClimateData/CsvAQI/*
+!data/processed/CsVClimateData/CsvAQI/.gitkeep
+data/processed/CsVClimateData/fg/*
+!data/processed/CsVClimateData/fg/.gitkeep
+data/processed/CsVClimateData/rr/*
+!data/processed/CsVClimateData/rr/.gitkeep
+data/processed/CsVClimateData/tg/*
+!data/processed/CsVClimateData/tg/.gitkeep
+data/processed/CsVClimateData/tn/*
+!data/processed/CsVClimateData/tn/.gitkeep
+data/processed/CsVClimateData/tx/*
+!data/processed/CsVClimateData/tx/.gitkeep
 
-# Ignore entire processed data directory
-data/processed/
+# Ignore entire processed data directory except .gitkeep
+data/processed/*
+!data/processed/CsVClimateData/.gitkeep
 
 # Ignore virtual environment
 venv/
@@ -16,7 +27,7 @@ venv/
 .DS_Store
 data/.DS_Store
 data/processed/.DS_Store
-data/processed/CSVClimateData/.DS_Store
+data/processed/CsVClimateData/.DS_Store
 src/.DS_Store
 src/extractors/.DS_Store
 src/utilities/.DS_Store
