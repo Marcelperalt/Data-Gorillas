@@ -1,15 +1,22 @@
 # Ignore NetCDF data files
-data/raw/netcdf4data/
+data/raw/netcdf4data/*
+!data/raw/netcdf4data/.gitkeep
 
-# Ignore processed CSV files
-data/processed/CsVClimateData/*.csv
-data/processed/CsVClimateData/*.parquet
+# Ignore processed CSV and Parquet files
+data/processed/CSVClimateData/*
+!data/processed/CSVClimateData/.gitkeep
+
+# Ignore entire processed data directory
+data/processed/
+
+# Ignore virtual environment
+venv/
 
 # Ignore system files
 .DS_Store
 data/.DS_Store
 data/processed/.DS_Store
-data/processed/CsVClimateData/.DS_Store
+data/processed/CSVClimateData/.DS_Store
 src/.DS_Store
 src/extractors/.DS_Store
 src/utilities/.DS_Store
