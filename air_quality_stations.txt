@@ -1,0 +1,106 @@
+City: Paris
+ Station Name: Paris, Latitude: 48.856614, Longitude: 2.3522219
+ Station Name: Autoroute A1 - Saint-denis, Paris, Latitude: 48.9251, Longitude: 2.35654
+ Station Name: Paris 1er Les Halles, Paris, Latitude: 48.8621, Longitude: 2.34462
+ Station Name: Boulevard Haussmann, Paris, Latitude: 48.8733, Longitude: 2.32957
+ Station Name: Paris 18eme, Paris, Latitude: 48.8917, Longitude: 2.34563
+ Station Name: Vitry-sur-seine, Paris, Latitude: 48.7759, Longitude: 2.37577
+ Station Name: Avenue Des Champs Elysees, Paris, Latitude: 48.8686, Longitude: 2.31166
+ Station Name: Boulevard Peripherique Est, Paris, Latitude: 48.8386, Longitude: 2.41278
+ Station Name: Route Nationale 2 - Pantin, Paris, Latitude: 48.9022, Longitude: 2.3907
+ Station Name: Paris Stade Lenglen, Paris, Latitude: 48.8303, Longitude: 2.26972
+ Station Name: Place De Lopera, Paris, Latitude: 48.8704, Longitude: 2.33241
+ Station Name: Place Victor Basch, Paris, Latitude: 48.8277, Longitude: 2.3267
+ Station Name: Paris Centre, Paris, Latitude: 48.8593, Longitude: 2.35101
+ Station Name: , Quai De Paris - Trafic, Rouen, France, Latitude: 49.436691489798, Longitude: 1.0985549449612
+ Station Name: Lognes, Paris, Latitude: 48.8403, Longitude: 2.63463
+ Station Name: Bobigny, Paris, Latitude: 48.9024, Longitude: 2.45261
+ Station Name: Gonesse, Paris, Latitude: 48.9908, Longitude: 2.44461
+ Station Name: La Defense, Paris, Latitude: 48.8913, Longitude: 2.24064
+ Station Name: Rambouillet, Paris, Latitude: 48.6337, Longitude: 1.83043
+ Station Name: Gennevilliers, Paris, Latitude: 48.9302, Longitude: 2.29421
+ Station Name: Cergy-pontoise, Paris, Latitude: 49.0459, Longitude: 2.04104
+
+City: Hamburg
+ Station Name: Veddel, Hamburg, Germany, Latitude: 53.522906, Longitude: 10.021966
+ Station Name: Kl. Grasbrook, Hafen, Hamburg, Germany, Latitude: 53.529159, Longitude: 9.981624
+ Station Name: Sternschanze, Hamburg, Germany, Latitude: 53.564486, Longitude: 9.96834
+ Station Name: Stresemannstraße, Hamburg, Germany, Latitude: 53.560862, Longitude: 9.957387
+ Station Name: Max-Brauer-Allee II, Hamburg, Germany, Latitude: 53.555726, Longitude: 9.943065
+ Station Name: Altona-Elbhang, Hamburg, Germany, Latitude: 53.545245, Longitude: 9.94489
+ Station Name: Wilhelmsburg, Hamburg, Germany, Latitude: 53.507916, Longitude: 9.990543
+ Station Name: Flughafen, Hamburg, Germany, Latitude: 53.638199, Longitude: 9.997419
+ Station Name: Habichtstraße, Hamburg, Germany, Latitude: 53.59235, Longitude: 10.053724
+ Station Name: Kieler Straße, Hamburg, Germany, Latitude: 53.56437, Longitude: 9.944616
+ Station Name: Billbrook, Hamburg, Germany, Latitude: 53.529433, Longitude: 10.082139
+ Station Name: Wilhemsburg, Hamburg, Germany, Latitude: 53.507925270423, Longitude: 9.9905581581023
+ Station Name: Billstedt, Hamburg, Germany, Latitude: 53.53851171032, Longitude: 10.102862419746
+ Station Name: Finkenwerder West, Hamburg, Germany, Latitude: 53.536237, Longitude: 9.844231
+
+City: Istanbul
+ Station Name: Istanbul (Kagithane), Turkey, Latitude: 41.087733, Longitude: 28.982773
+ Station Name: Istanbul Kagithane, Turkey, Latitude: 41.09233, Longitude: 28.97478
+ Station Name: Istanbul (Kadikoy), Turkey, Latitude: 40.991944, Longitude: 29.033611
+ Station Name: Istanbul (Aksaray), Turkey, Latitude: 41.014722, Longitude: 28.954722
+ Station Name: Istanbul Mecidiyekoy, Turkey, Latitude: 41.06596, Longitude: 28.99446
+ Station Name: Istanbul (Esenler), Turkey, Latitude: 41.038333, Longitude: 28.888056
+ Station Name: Selimiye, Turkey, Latitude: 41.003818, Longitude: 29.026914
+ Station Name: Mobil 2, Turkey, Latitude: 41.051663093475, Longitude: 28.867944221877
+ Station Name: Istanbul (Alibeykoy), Turkey, Latitude: 41.057672, Longitude: 28.945682
+ Station Name: Istanbul Uskudar, Turkey, Latitude: 41.02705, Longitude: 29.02489
+ Station Name: Istanbul (Besiktas), Turkey, Latitude: 41.053889, Longitude: 29.01
+ Station Name: Istanbul (Uskudar), Turkey, Latitude: 41.015278, Longitude: 29.025
+ Station Name: Catladikapi, Turkey, Latitude: 41.0025, Longitude: 28.975278
+ Station Name: Istanbul (Buyukada), Turkey, Latitude: 40.8578714, Longitude: 29.1209951
+ Station Name: Istanbul Kandilli, Turkey, Latitude: 41.0746, Longitude: 29.05899
+ Station Name: Istanbul Esenyurt, Turkey, Latitude: 41.02028, Longitude: 28.66955
+ Station Name: Istanbul (Kartal), Turkey, Latitude: 40.89, Longitude: 29.2075
+ Station Name: Istanbul (Yenibosna), Turkey, Latitude: 40.998889, Longitude: 28.826667
+ Station Name: Istanbul Sile, Turkey, Latitude: 41.17046, Longitude: 29.56336
+ Station Name: Istanbul Sirinevler, Turkey, Latitude: 41.00245, Longitude: 28.83866
+ Station Name: Istanbul Umraniye, Turkey, Latitude: 41.02442, Longitude: 29.09973
+
+City: Madrid
+ Station Name: Madrid, Latitude: 40.4167754, Longitude: -3.7037902
+ Station Name: Escuelas Aguirre, Madrid, Spain, Latitude: 40.421562, Longitude: -3.682319
+ Station Name: Casa De Campo, Madrid, Spain, Latitude: 40.419352, Longitude: -3.747346
+ Station Name: Sanchinarro, Madrid, Spain, Latitude: 40.494205, Longitude: -3.660505
+ Station Name: Plaza Elíptica, Madrid, Spain, Latitude: 40.384961, Longitude: -3.718727
+ Station Name: Plaza De Castilla, Madrid, Spain, Latitude: 40.465565, Longitude: -3.688769
+ Station Name: Fernandez Ladreda, Madrid, Spain, Latitude: 40.38472222, Longitude: -3.718611111
+ Station Name: Mendez Alvaro, Madrid, Spain, Latitude: 40.398111, Longitude: -3.686825
+ Station Name: Cuatro Caminos, Madrid, Spain, Latitude: 40.445542, Longitude: -3.707129
+ Station Name: Castellana, Madrid, Spain, Latitude: 40.439891, Longitude: -3.690366
+ Station Name: Media  Red, Madrid, Spain, Latitude: 40.4167754, Longitude: -3.7037902
+ Station Name: el atazar, Madrid, Spain, Latitude: 40.910279999468, Longitude: -3.46667
+ Station Name: algete, Madrid, Spain, Latitude: 40.593329999469, Longitude: -3.50306
+ Station Name: alcorcón, Madrid, Spain, Latitude: 40.34193999947, Longitude: -3.83389
+ Station Name: valdemoro, Madrid, Spain, Latitude: 40.18527999947, Longitude: -3.67972
+ Station Name: torrejon de ardoz, Madrid, Spain, Latitude: 40.45499999947, Longitude: -3.48417
+ Station Name: villa del prado, Madrid, Spain, Latitude: 40.25193999947, Longitude: -4.27472
+ Station Name: collado villalba, Madrid, Spain, Latitude: 40.633889999469, Longitude: -4.01333
+ Station Name: villarejo de salvanes, Madrid, Spain, Latitude: 40.167219999471, Longitude: -3.27667
+
+City: London
+ Station Name: London, Latitude: 51.5073509, Longitude: -0.1277583
+ Station Name: Westminster - Oxford Street, United Kingdom, Latitude: 51.513928740421, Longitude: -0.15279270188194
+ Station Name: Camden Kerbside, United Kingdom, Latitude: 51.54421, Longitude: -0.175269
+ Station Name: Camden - Euston Road, United Kingdom, Latitude: 51.527706619465, Longitude: -0.12905320528252
+ Station Name: London Marylebone Road, United Kingdom, Latitude: 51.52253, Longitude: -0.154611
+ Station Name: Lambeth - Brixton Road, United Kingdom, Latitude: 51.464113541162, Longitude: -0.11458102695123
+ Station Name: London N. Kensington, United Kingdom, Latitude: 51.52105, Longitude: -0.213492
+ Station Name: Southwark - Tower Bridge Road, United Kingdom, Latitude: 51.501390671207, Longitude: -0.078203437360695
+ Station Name: Southwark - Elephant and Castle, United Kingdom, Latitude: 51.493155704867, Longitude: -0.10152703827485
+ Station Name: London Bloomsbury, United Kingdom, Latitude: 51.52229, Longitude: -0.125889
+ Station Name: Westminster - Elizabeth Bridge, United Kingdom, Latitude: 51.492248233302, Longitude: -0.14711475290019
+ Station Name: Wandsworth - Lavender Hill (Clapham Jct), United Kingdom, Latitude: 51.463690356811, Longitude: -0.16671348599481
+ Station Name: London Westminster, United Kingdom, Latitude: 51.49467, Longitude: -0.131931
+ Station Name: Wandsworth - Tooting High Street, United Kingdom, Latitude: 51.429331, Longitude: -0.166524
+ Station Name: Islington - Holloway Road, United Kingdom, Latitude: 51.555378, Longitude: -0.116146
+ Station Name: Wandsworth - Battersea, United Kingdom, Latitude: 51.479439528122, Longitude: -0.14178695360631
+ Station Name: Islington - Arsenal, United Kingdom, Latitude: 51.557895, Longitude: -0.106989
+ Station Name: Camden - Coopers Lane, United Kingdom, Latitude: 51.533238, Longitude: -0.129594
+ Station Name: Lambeth - Streatham Green, United Kingdom, Latitude: 51.42821314295, Longitude: -0.13186863879576
+ Station Name: Westminster - Horseferry Road, United Kingdom, Latitude: 51.494681, Longitude: -0.131938
+ Station Name: Lambeth - Bondway Interchange, United Kingdom, Latitude: 51.485486773973, Longitude: -0.12454523481921
+

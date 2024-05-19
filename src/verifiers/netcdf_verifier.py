@@ -5,10 +5,19 @@ This script verifies the data extracted from NetCDF files against the CSV files 
 """
 
 import os
+import json
 from datetime import datetime
 import numpy as np
 import pandas as pd
 from netCDF4 import Dataset, num2date
+
+# Change the working directory to the script's location
+script_dir = os.path.abspath(os.path.dirname(__file__))
+os.chdir(script_dir)
+
+# Load configuration
+with open(os.path.join(script_dir, '..', '..', 'config.json'), 'r') as config_file:
+    config = json.load(config_file)
 
 
 class NetCDFVerifier:
@@ -16,11 +25,12 @@ class NetCDFVerifier:
     Class to verify the data extracted from NetCDF files against CSV files.
     """
 
-    def __init__(self, netcdf_dir, csv_dir, city_coords, starting_date):
+    def __init__(self, netcdf_dir, csv_dir, city_coords, starting_date, ending_date=None):
         self.netcdf_dir = netcdf_dir
         self.csv_dir = csv_dir
         self.city_coords = city_coords
         self.starting_date = starting_date
+        self.ending_date = ending_date
 
     def load_csv_data(self, filepath):
         """
@@ -31,13 +41,18 @@ class NetCDFVerifier:
         data = df.drop(columns=['Date']).values
         return dates, data
 
-    def load_netcdf_data(self, filepath, variable_name, lat_range, lon_range, start_idx=None):
+    def load_netcdf_data(self, filepath, variable_name, lat_range, lon_range, start_idx=None, end_idx=None):
         """
         Load data from a NetCDF file.
         """
         dataset = Dataset(filepath, 'r')
         time_var = dataset.variables['time']
-        if start_idx is not None:
+        if start_idx is not None and end_idx is not None:
+            dates = num2date(
+                time_var[start_idx:end_idx], units=time_var.units, calendar=time_var.calendar)
+            data = dataset.variables[variable_name][start_idx:end_idx,
+                                                    lat_range, lon_range]
+        elif start_idx is not None:
             dates = num2date(
                 time_var[start_idx:], units=time_var.units, calendar=time_var.calendar)
             data = dataset.variables[variable_name][start_idx:,
@@ -83,6 +98,7 @@ class NetCDFVerifier:
             dataset, nw_lat, nw_lon, se_lat, se_lon)
 
         start_idx = None
+        end_idx = None
         if self.starting_date is not None:
             time_var = dataset.variables['time']
             dates = num2date(
@@ -94,9 +110,17 @@ class NetCDFVerifier:
             start_idx = next(i for i, date in enumerate(
                 dates) if date >= start_date)
 
+        if self.ending_date is not None:
+            end_date = datetime.strptime(self.ending_date, '%Y-%m-%d')
+            if end_date < dates[0] or end_date > dates[-1]:
+                raise ValueError(
+                    f"Ending date {self.ending_date} out of dataset bounds.")
+            end_idx = next(i for i, date in enumerate(
+                dates) if date > end_date)
+
         csv_dates, csv_data = self.load_csv_data(csv_filepath)
         netcdf_dates, netcdf_data = self.load_netcdf_data(
-            netcdf_filepath, variable_name, lat_range, lon_range, start_idx)
+            netcdf_filepath, variable_name, lat_range, lon_range, start_idx, end_idx)
 
         # Check if dates match
         if csv_dates != netcdf_dates:
@@ -140,17 +164,11 @@ class NetCDFVerifier:
 
 # Example usage
 if __name__ == '__main__':
-    COORDS = {
-        # 'Istanbul': (41.3, 28.6, 40.8, 29.3),
-        'Paris': (49.1, 1.8, 48.5, 3.0),
-        # 'Madrid': (40.8, -4.0, 40.0, -3.4),
-        # 'London': (51.7, -0.6, 51.2, 0.4),
-        # 'Hamburg': (53.8, 9.6, 53.2, 10.5)
-    }
-
-    NETCDF_DIR = 'netcdf4data'
-    CSV_DIR = 'CSVClimateData'
-    STARTING_DATE = '2013-01-01'
-
-    verifier = NetCDFVerifier(NETCDF_DIR, CSV_DIR, COORDS, STARTING_DATE)
+    verifier = NetCDFVerifier(
+        netcdf_dir=os.path.join('..', '..', config['netcdf_dir']),
+        csv_dir=os.path.join('..', '..', config['csv_dir']),
+        city_coords=config['city_coords'],
+        starting_date=config['starting_date'],
+        ending_date=config['ending_date']
+    )
     verifier.process_and_verify_files()

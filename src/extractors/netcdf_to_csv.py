@@ -6,9 +6,18 @@ This script processes and extracts climate data from NetCDF files and saves it a
 
 from datetime import datetime
 import os
+import json
 import numpy as np
 import pandas as pd
 from netCDF4 import Dataset, num2date
+
+# Change the working directory to the script's location
+script_dir = os.path.abspath(os.path.dirname(__file__))
+os.chdir(script_dir)
+
+# Load configuration
+with open(os.path.join(script_dir, '..', '..', 'config.json'), 'r') as config_file:
+    config = json.load(config_file)
 
 
 def generate_headers(lat_range, lon_range, dataset):
@@ -63,11 +72,14 @@ class DataExtractor:
                 f"{coordinate_type} value {coordinate} out of bounds.")
         return np.argmin(np.abs(coords - coordinate))
 
-    def extract_data(self, lat_range, lon_range, start_idx=None):
+    def extract_data(self, lat_range, lon_range, start_idx=None, end_idx=None):
         """
         Extract data from the NetCDF file for the specified latitude and longitude ranges.
         """
-        if start_idx is not None:
+        if start_idx is not None and end_idx is not None:
+            data = self.dataset.variables[self.variable_name][start_idx:end_idx,
+                                                              lat_range, lon_range]
+        elif start_idx is not None:
             data = self.dataset.variables[self.variable_name][start_idx:,
                                                               lat_range, lon_range]
         else:
@@ -75,12 +87,15 @@ class DataExtractor:
                                                               lat_range, lon_range]
         return data.reshape(data.shape[0], -1)
 
-    def extract_date(self, start_idx=None):
+    def extract_date(self, start_idx=None, end_idx=None):
         """
         Extract dates from the NetCDF file.
         """
         time_var = self.dataset.variables['time']
-        if start_idx is not None:
+        if start_idx is not None and end_idx is not None:
+            dates = num2date(
+                time_var[start_idx:end_idx], units=time_var.units, calendar=time_var.calendar)
+        elif start_idx is not None:
             dates = num2date(
                 time_var[start_idx:], units=time_var.units, calendar=time_var.calendar)
         else:
@@ -88,14 +103,18 @@ class DataExtractor:
                 time_var[:], units=time_var.units, calendar=time_var.calendar)
         return [date.strftime('%Y-%m-%d') for date in dates]
 
-    def print_time_info(self, start_idx=None):
+    def print_time_info(self, start_idx=None, end_idx=None):
         """
         Print the time range information from the NetCDF file.
         """
         time_var = self.dataset.variables['time']
         dates = num2date(time_var[:], units=time_var.units,
                          calendar='standard' if 'calendar' not in time_var.ncattrs() else time_var.calendar)
-        if start_idx is not None:
+        if start_idx is not None and end_idx is not None:
+            dates_subset = dates[start_idx:end_idx]
+            print("First date in the subset:", dates_subset[0])
+            print("Last date in the subset:", dates_subset[-1])
+        elif start_idx is not None:
             dates_subset = dates[start_idx:]
             print("First date in the subset:", dates_subset[0])
             print("Last date in the subset:", dates_subset[-1])
@@ -112,7 +131,6 @@ class DataExtractor:
         if data.size == 0:
             raise ValueError(
                 "No data to save. Data extraction failed or resulted in an empty dataset.")
-        # exclude 'Date' from headers
         df = pd.DataFrame(data, columns=headers[1:])
         df.insert(0, 'Date', dates)
         df.to_csv(self.output_filename, index=False)
@@ -145,25 +163,37 @@ class RegionalDataExtractor(DataExtractor):
                           max(nw_lon_idx, se_lon_idx) + 1)
         return lat_range, lon_range
 
-    def process_data(self, starting_date=None):
+    def process_data(self, starting_date=None, ending_date=None):
         """
         Process data for the specified date range and save it to a CSV file.
         """
         start_idx = None
+        end_idx = None
+
+        time_var = self.dataset.variables['time']
+        dates = num2date(
+            time_var[:], units=time_var.units, calendar=time_var.calendar)
+
         if starting_date is not None:
-            time_var = self.dataset.variables['time']
-            dates = num2date(
-                time_var[:], units=time_var.units, calendar=time_var.calendar)
             start_date = datetime.strptime(starting_date, '%Y-%m-%d')
             if start_date < dates[0] or start_date > dates[-1]:
                 raise ValueError(
                     f"Starting date {starting_date} out of dataset bounds.")
             start_idx = next(i for i, date in enumerate(
                 dates) if date >= start_date)
-        self.print_time_info(start_idx)
+
+        if ending_date is not None:
+            end_date = datetime.strptime(ending_date, '%Y-%m-%d')
+            if end_date < dates[0] or end_date > dates[-1]:
+                raise ValueError(
+                    f"Ending date {ending_date} out of dataset bounds.")
+            end_idx = next(i for i, date in enumerate(
+                dates) if date > end_date)
+
+        self.print_time_info(start_idx, end_idx)
         lat_range, lon_range = self.get_lat_lon_indices()
-        data = self.extract_data(lat_range, lon_range, start_idx)
-        dates = self.extract_date(start_idx)
+        data = self.extract_data(lat_range, lon_range, start_idx, end_idx)
+        dates = self.extract_date(start_idx, end_idx)
         headers = generate_headers(lat_range, lon_range, self.dataset)
         self.save_to_csv(data, dates, headers)
 
@@ -177,22 +207,22 @@ class NetCDFProcessor:
         self.netcdf_dir = netcdf_dir
         self.coords = coords
 
-    def process_all(self, starting_date=None):
+    def process_all(self, starting_date=None, ending_date=None):
         """
         Process all NetCDF files in the directory.
         """
+        print("Current working directory:", os.getcwd())
         netcdf_files = [f for f in os.listdir(
             self.netcdf_dir) if f.endswith('.nc')]
         for filename in netcdf_files:
-            self.process_file(filename, starting_date)
+            self.process_file(filename, starting_date, ending_date)
 
-    def process_file(self, filename, starting_date):
+    def process_file(self, filename, starting_date, ending_date):
         """
         Process a single NetCDF file.
         """
         filepath = os.path.join(self.netcdf_dir, filename)
         try:
-            # Open the dataset to check for existence
             _ = Dataset(filepath, 'r')
         except FileNotFoundError:
             print(f"File {filepath} not found. Skipping.")
@@ -200,7 +230,8 @@ class NetCDFProcessor:
         variable_name = filename.split('_')[0]
         version = filename.split('_')[-1].replace('.nc', '')
 
-        output_subdir = os.path.join('CSVClimateData', variable_name)
+        output_subdir = os.path.join(
+            '..', '..', config['csv_dir'], variable_name)
         if not os.path.exists(output_subdir):
             os.makedirs(output_subdir)
 
@@ -215,13 +246,16 @@ class NetCDFProcessor:
                 output_directory=output_subdir,
                 output_filename=output_filename
             )
-            city_extractor.process_data(starting_date=starting_date)
+            city_extractor.process_data(
+                starting_date=starting_date, ending_date=ending_date)
 
 
 if __name__ == '__main__':
-    city_coords = {
-        'Paris': (49.1, 1.8, 48.5, 3.0),
-    }
-
-    processor = NetCDFProcessor(netcdf_dir='netcdf4data', coords=city_coords)
-    processor.process_all(starting_date='2013-01-01')
+    processor = NetCDFProcessor(
+        netcdf_dir=os.path.join('..', '..', config['netcdf_dir']),
+        coords=config['city_coords']
+    )
+    processor.process_all(
+        starting_date=config['starting_date'],
+        ending_date=config['ending_date']
+    )

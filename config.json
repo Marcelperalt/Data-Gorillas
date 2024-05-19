@@ -1,0 +1,16 @@
+{
+  "netcdf_dir": "data/raw/netcdf4data",
+  "csv_dir": "data/processed/CSVClimateData",
+  "output_file": "air_quality_stations.txt",
+  "cities": ["Paris", "Hamburg", "Istanbul", "Madrid", "London"],
+  "waqi_token": "42a5f642cfa03411abfb583b298be02d4ac7c23a",
+  "starting_date": "2013-01-01",
+  "ending_date": "2022-12-31",
+  "city_coords": {
+    "Istanbul": [41.3, 28.6, 40.8, 29.3],
+    "Paris": [49.1, 1.8, 48.5, 3.0],
+    "Madrid": [40.8, -4.0, 40.0, -3.4],
+    "London": [51.7, -0.6, 51.2, 0.4],
+    "Hamburg": [53.8, 9.6, 53.2, 10.5]
+  }
+}

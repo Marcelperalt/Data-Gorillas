@@ -1,0 +1,17 @@
+# Ignore NetCDF data files
+data/raw/netcdf4data/
+
+# Ignore processed CSV files
+data/processed/CsVClimateData/*.csv
+data/processed/CsVClimateData/*.parquet
+
+# Ignore system files
+.DS_Store
+data/.DS_Store
+data/processed/.DS_Store
+data/processed/CsVClimateData/.DS_Store
+src/.DS_Store
+src/extractors/.DS_Store
+src/utilities/.DS_Store
+src/verifiers/.DS_Store
+
